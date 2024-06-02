@@ -120,24 +120,10 @@ function Home() {
     sortProperty: "rating",
   });
   const [categoryId, setCategoryId] = useState(0);
-
   const [currentPage, setCarrentPage] = useState(1);
-  //'https//mocApi.io/items?page=${currentPage}&limit=4')
   useEffect(() => {
-    // fetch(
-    //   "https://665b7403003609eda460ec36.mockapi.io/item?category=" + categoryId
-    // )
-    //   .then((res) => {
-    //     return res.json();
-    //   })
-    //   .then((arr) => {
-    //     setItemsPizzas(arr);
-    //     console.log(222);
-    //     setIsLoading(false);
-    //   });
-
     const fetchData = async () => {
-      setIsLoading(true); // Показываем лоадер
+      setIsLoading(true);
 
       const order = sortType.sortProperty.includes("-") ? "asc" : "desc";
       const sortBy = sortType.sortProperty.replace("-", "");
@@ -159,67 +145,6 @@ function Home() {
 
     window.scrollTo(0, 0);
   }, [categoryId, sortType, currentPage]);
-
-  // const onClickCateg = (i) => {
-  //   if (i === 0) {
-  //     setItemsPizzas(pizzas);
-  //   } else {
-  //     setItemsPizzas((piz) => {
-  //       return pizzas.filter((item) => item.category === i);
-  //     });
-  //   }
-  // };
-
-  // const onClickSort = (i) => {
-  //   if (i === 0) {
-  //     setItemsPizzas((piz) => {
-  //       let sortedPizzas = [...pizzas];
-
-  //       for (let i = 0; i < sortedPizzas.length; i++) {
-  //         for (let j = 0; j < sortedPizzas.length - 1; j++) {
-  //           if (sortedPizzas[j].rating > sortedPizzas[j + 1].rating) {
-  //             let temp = sortedPizzas[j];
-  //             sortedPizzas[j] = sortedPizzas[j + 1];
-  //             sortedPizzas[j + 1] = temp;
-  //           }
-  //         }
-  //       }
-  //       return sortedPizzas;
-  //     });
-  //   } else if (i === 1) {
-  //     setItemsPizzas((piz) => {
-  //       let sortedPizzas = [...pizzas];
-
-  //       for (let i = 0; i < sortedPizzas.length; i++) {
-  //         for (let j = 0; j < sortedPizzas.length - 1; j++) {
-  //           if (sortedPizzas[j].price > sortedPizzas[j + 1].price) {
-  //             let temp = sortedPizzas[j];
-  //             sortedPizzas[j] = sortedPizzas[j + 1];
-  //             sortedPizzas[j + 1] = temp;
-  //           }
-  //         }
-  //       }
-  //       return sortedPizzas;
-  //     });
-  //   } else if (i === 2) {
-  //     setItemsPizzas((piz) => {
-  //       let sortedPizzasFor = [...pizzas];
-
-  //       for (let i = 0; i < sortedPizzasFor.length; i++) {
-  //         for (let j = 0; j < sortedPizzasFor.length - 1; j++) {
-  //           if (sortedPizzasFor[j].title > sortedPizzasFor[j + 1].title) {
-  //             let temp = sortedPizzasFor[j];
-  //             sortedPizzasFor[j] = sortedPizzasFor[j + 1];
-  //             sortedPizzasFor[j + 1] = temp;
-  //           }
-  //         }
-  //       }
-  //       return sortedPizzasFor;
-  //     });
-  //   }
-  // };
-
-  // const onClickCategory = () => {};
 
   return (
     <div className="container">
