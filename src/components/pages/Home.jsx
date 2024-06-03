@@ -5,6 +5,7 @@ import Skeleton from "../PizzaBlock/Skeleton";
 import Sort from "../Sort";
 import Pagination from "../Pagination";
 import axios from "axios";
+import qs from "qs";
 
 // const pizzas = [
 //   {
@@ -111,8 +112,10 @@ import axios from "axios";
 
 import { useSelector, useDispatch } from "react-redux";
 import { setCategoryId, setPageCount } from "../../redux/slices/filterSlice";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { categoryId, input, sort, pageCount } = useSelector(
     (state) => state.filter
@@ -131,6 +134,13 @@ function Home() {
   const onChangePage = (number) => {
     dispatch(setPageCount(number));
   };
+
+  useEffect(() => {
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1));
+      console.log(params);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -154,6 +164,16 @@ function Home() {
     fetchData();
 
     window.scrollTo(0, 0);
+  }, [categoryId, sortType, pageCount]);
+
+  useEffect(() => {
+    const querySrting = qs.stringify({
+      sortProperty: sortType,
+      categoryId,
+      pageCount,
+    });
+
+    navigate(`?${querySrting}`);
   }, [categoryId, sortType, pageCount]);
 
   return (
