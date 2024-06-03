@@ -110,20 +110,26 @@ import axios from "axios";
 // ]
 
 import { useSelector, useDispatch } from "react-redux";
-import { setCategoryId } from "../../redux/slices/filterSlice";
+import { setCategoryId, setPageCount } from "../../redux/slices/filterSlice";
 
 function Home() {
   const dispatch = useDispatch();
-  const { categoryId, input, sort } = useSelector((state) => state.filter);
+  const { categoryId, input, sort, pageCount } = useSelector(
+    (state) => state.filter
+  );
   const searchValue = input;
   const sortType = sort.sortProperty;
 
   let [itemsPizzas, setItemsPizzas] = useState([]);
   let [isLoading, setIsLoading] = useState(true);
-  const [currentPage, setCarrentPage] = useState(1);
+  // const [currentPage, setCarrentPage] = useState(1);
 
   const onClickCategoty = (id) => {
     dispatch(setCategoryId(id));
+  };
+
+  const onChangePage = (number) => {
+    dispatch(setPageCount(number));
   };
 
   useEffect(() => {
@@ -135,7 +141,7 @@ function Home() {
       const category = categoryId === 0 ? "" : categoryId;
       try {
         let item = await axios.get(
-          `https://665b7403003609eda460ec36.mockapi.io/item?page=${currentPage}&limit=4&category=${category}&sortBy=${sortBy}&order=${order}`
+          `https://665b7403003609eda460ec36.mockapi.io/item?page=${pageCount}&limit=4&category=${category}&sortBy=${sortBy}&order=${order}`
         );
 
         setItemsPizzas(item.data);
@@ -148,7 +154,7 @@ function Home() {
     fetchData();
 
     window.scrollTo(0, 0);
-  }, [categoryId, sortType, currentPage]);
+  }, [categoryId, sortType, pageCount]);
 
   return (
     <div className="container">
@@ -170,7 +176,7 @@ function Home() {
               .map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
       </div>
 
-      <Pagination onChangePage={(number) => setCarrentPage(number)} />
+      <Pagination value={pageCount} onChangePage={onChangePage} />
     </div>
   );
 }
