@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Categories from "../Categories";
 import PizzaBlock from "../PizzaBlock";
 import Skeleton from "../PizzaBlock/Skeleton";
-import Sort from "../Sort";
+import Sort, { list } from "../Sort";
+// import Sort from "../Sort";
 import Pagination from "../Pagination";
 import axios from "axios";
 import qs from "qs";
@@ -111,10 +112,16 @@ import qs from "qs";
 // ]
 
 import { useSelector, useDispatch } from "react-redux";
-import { setCategoryId, setPageCount } from "../../redux/slices/filterSlice";
+import {
+  setCategoryId,
+  setFiltersUrl,
+  setPageCount,
+} from "../../redux/slices/filterSlice";
 import { useNavigate } from "react-router-dom";
 
 function Home() {
+  const isSearch = React.useRef(false);
+  const isMounted = React.useRef(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { categoryId, input, sort, pageCount } = useSelector(
@@ -135,14 +142,7 @@ function Home() {
     dispatch(setPageCount(number));
   };
 
-  useEffect(() => {
-    if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1));
-      console.log(params);
-    }
-  }, []);
-
-  useEffect(() => {
+  const fetchPizzas = () => {
     const fetchData = async () => {
       setIsLoading(true);
 
@@ -162,19 +162,47 @@ function Home() {
     };
 
     fetchData();
+    // console.log(itemsPizzas);
+  };
+
+  useEffect(() => {
+    if (!isSearch.current) {
+      fetchPizzas();
+    }
+
+    isSearch.current = false;
 
     window.scrollTo(0, 0);
   }, [categoryId, sortType, pageCount]);
 
   useEffect(() => {
-    const querySrting = qs.stringify({
-      sortProperty: sortType,
-      categoryId,
-      pageCount,
-    });
+    if (isMounted.current) {
+      const querySrting = qs.stringify({
+        sortProperty: sortType,
+        categoryId,
+        pageCount,
+      });
 
-    navigate(`?${querySrting}`);
+      navigate(`?${querySrting}`);
+    }
+    isMounted.current = true;
   }, [categoryId, sortType, pageCount]);
+
+  // useEffect(() => {
+  //   if (window.location.search) {
+  //     const params = qs.parse(window.location.search.substring(1));
+
+  //     const sort = list.find((obj) => obj.sortProperty === params.sortProperty);
+
+  //     dispatch(
+  //       setFiltersUrl({
+  //         ...params,
+  //         sort,
+  //       })
+  //     );
+  //     isSearch.current = true;
+  //   }
+  // }, []);
 
   return (
     <div className="container">
