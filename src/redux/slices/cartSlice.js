@@ -12,16 +12,16 @@ export const cartState = createSlice({
     addItem(state, action) {
       const existingItemType = state.items.find(
         (obj) =>
-          obj.type === action.payload.type && obj.size === action.payload.size
+          obj.type === action.payload.type &&
+          obj.size === action.payload.size &&
+          obj.title === action.payload.title
       );
       if (existingItemType) {
         existingItemType.count += 1;
         existingItemType.price += action.payload.price;
-        // console.log(state.items, "count++");
       } else {
         action.payload.count = 1;
         state.items.push(action.payload);
-        // console.log(state.items, "state.items");
       }
 
       state.totalPrice = state.items.reduce((sum, obj) => {
@@ -34,9 +34,42 @@ export const cartState = createSlice({
     clearItem(state, action) {
       state.items = [];
     },
+    addOwnItem(state, action) {
+      const existingItemType = state.items.find(
+        (obj) =>
+          obj.type === action.payload.type &&
+          obj.size === action.payload.size &&
+          obj.title === action.payload.title
+      );
+
+      if (existingItemType) {
+        existingItemType.price =
+          action.payload.price + action.payload.price / action.payload.count;
+        existingItemType.count += 1;
+      }
+    },
+
+    removeOwnItem(state, action) {
+      const existingItemType = state.items.find(
+        (obj) =>
+          obj.type === action.payload.type &&
+          obj.size === action.payload.size &&
+          obj.title === action.payload.title
+      );
+
+      if (existingItemType) {
+        if (existingItemType.count > 1) {
+          existingItemType.price =
+            action.payload.price - action.payload.price / action.payload.count;
+          existingItemType.count -= 1;
+        } else {
+        }
+      }
+    },
   },
 });
 
-export const { addItem, removeItem, clearItem } = cartState.actions;
+export const { addItem, removeItem, clearItem, addOwnItem, removeOwnItem } =
+  cartState.actions;
 
 export default cartState.reducer;
