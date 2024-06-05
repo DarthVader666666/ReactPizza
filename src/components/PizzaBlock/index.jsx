@@ -28,9 +28,11 @@ function PizzaBlock(prop) {
       price: prop.price,
       imageUrl: prop.imageUrl,
       type: typeName[activeType],
-      size: activeSize,
+      size: prop.sizes[activeSize],
     };
+    console.log(item);
     dispath(addItem(item));
+    console.log(item);
   };
 
   return (

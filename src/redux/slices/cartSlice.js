@@ -6,6 +6,8 @@ const initialState = {
   itemsAllTypeCart: [],
 };
 
+const minusData = () => {};
+
 export const cartState = createSlice({
   name: "cart",
   initialState,

@@ -8,6 +8,7 @@ import {
   removeOwnItem,
   removeOwnType,
 } from "../../redux/slices/cartSlice";
+import CartEmpty from "../CartEmpty";
 
 const Cart = () => {
   const { items, totalPrice, itemsAllTypeCart } = useSelector(
@@ -24,6 +25,10 @@ const Cart = () => {
   const removeCount = (item) => {
     dispatch(removeOwnItem(item));
   };
+
+  if (!totalPrice) {
+    return <CartEmpty />;
+  }
 
   return (
     <div className="container container--cart">

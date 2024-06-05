@@ -118,6 +118,7 @@ import {
   setPageCount,
 } from "../../redux/slices/filterSlice";
 import { useNavigate } from "react-router-dom";
+import { fetchPizzas } from "../../redux/slices/pizzasSlice";
 
 function Home() {
   const isSearch = React.useRef(false);
@@ -130,10 +131,7 @@ function Home() {
   const searchValue = input;
   const sortType = sort.sortProperty;
 
-  let [itemsPizzas, setItemsPizzas] = useState([]);
-  let [isLoading, setIsLoading] = useState(true);
-  // const [currentPage, setCarrentPage] = useState(1);
-
+  const { itemsPizzas, status } = useSelector((state) => state.pizzas);
   const onClickCategoty = (id) => {
     dispatch(setCategoryId(id));
   };
@@ -142,32 +140,28 @@ function Home() {
     dispatch(setPageCount(number));
   };
 
-  const fetchPizzas = () => {
+  const getfetchPizzas = () => {
     const fetchData = async () => {
-      setIsLoading(true);
-
       const order = sortType.includes("-") ? "asc" : "desc";
       const sortBy = sortType.replace("-", "");
       const category = categoryId === 0 ? "" : categoryId;
-      try {
-        let item = await axios.get(
-          `https://665b7403003609eda460ec36.mockapi.io/item?page=${pageCount}&limit=4&category=${category}&sortBy=${sortBy}&order=${order}`
-        );
 
-        setItemsPizzas(item.data);
-        setIsLoading(false);
-      } catch {
-        alert("ошибка");
-      }
+      dispatch(
+        fetchPizzas({
+          order,
+          sortBy,
+          category,
+          pageCount,
+        })
+      );
     };
 
     fetchData();
-    // console.log(itemsPizzas);
   };
 
   useEffect(() => {
     if (!isSearch.current) {
-      fetchPizzas();
+      getfetchPizzas();
     }
 
     isSearch.current = false;
@@ -214,15 +208,19 @@ function Home() {
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">
-        {isLoading
-          ? [...new Array(6)].map((_, i) => <Skeleton key={i} />)
-          : itemsPizzas
-              .filter((item) =>
-                item.title.toUpperCase().includes(searchValue.toUpperCase())
-              )
-              .map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
-      </div>
+      {status === "error" ? (
+        <h2>Ошибка при получении данных</h2>
+      ) : (
+        <div className="content__items">
+          {status === "loading"
+            ? [...new Array(6)].map((_, i) => <Skeleton key={i} />)
+            : itemsPizzas
+                .filter((item) =>
+                  item.title.toUpperCase().includes(searchValue.toUpperCase())
+                )
+                .map((obj) => <PizzaBlock key={obj.id} {...obj} />)}
+        </div>
+      )}
 
       <Pagination value={pageCount} onChangePage={onChangePage} />
     </div>
