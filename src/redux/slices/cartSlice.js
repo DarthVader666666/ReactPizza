@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   totalPrice: 0,
   items: [],
+  itemsAllTypeCart: [],
 };
 
 export const cartState = createSlice({
@@ -10,6 +11,19 @@ export const cartState = createSlice({
   initialState,
   reducers: {
     addItem(state, action) {
+      const findAllItemType = state.itemsAllTypeCart.find(
+        (obj) => obj.id === action.payload.id
+      );
+
+      if (findAllItemType) {
+        findAllItemType.count++;
+      } else {
+        state.itemsAllTypeCart.push({
+          ...action.payload,
+          count: 1,
+        });
+      }
+
       const existingItemType = state.items.find(
         (obj) =>
           obj.type === action.payload.type &&
@@ -46,6 +60,13 @@ export const cartState = createSlice({
         existingItemType.count += 1;
         state.totalPrice += action.payload.price / action.payload.count;
       }
+
+      const findAllItemType = state.itemsAllTypeCart.find(
+        (obj) => obj.id === action.payload.id
+      );
+      if (findAllItemType) {
+        findAllItemType.count++;
+      }
     },
 
     removeOwnItem(state, action) {
@@ -65,11 +86,29 @@ export const cartState = createSlice({
         } else {
         }
       }
+      const findAllItemType = state.itemsAllTypeCart.find(
+        (obj) => obj.id === action.payload.id
+      );
+      if (findAllItemType) {
+        findAllItemType.count--;
+      }
+    },
+    clearAllItems(state) {
+      state.items = [];
+      state.itemsAllTypeCart = [];
+      state.totalPrice = 0;
     },
   },
 });
 
-export const { addItem, removeItem, clearItem, addOwnItem, removeOwnItem } =
-  cartState.actions;
+export const {
+  addItem,
+  removeItem,
+  clearItem,
+  addOwnItem,
+  removeOwnItem,
+  removeOwnType,
+  clearAllItems,
+} = cartState.actions;
 
 export default cartState.reducer;

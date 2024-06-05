@@ -13,6 +13,11 @@ function PizzaBlock(prop) {
   const [activeSize, setActiveSize] = useState(0);
 
   const { items } = useSelector((state) => state.cart);
+  const cartItem = useSelector((state) =>
+    state.cart.itemsAllTypeCart.find((obj) => obj.id === prop.id)
+  );
+
+  const addedCount = cartItem ? cartItem.count : 0;
 
   const typeName = ["тонкое", "традиционное"];
 
@@ -80,7 +85,7 @@ function PizzaBlock(prop) {
               />
             </svg>
             <span>Добавить</span>
-            <i>0</i>
+            <i>{addedCount}</i>
           </div>
         </div>
       </div>

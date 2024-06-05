@@ -2,21 +2,29 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
-import { addOwnItem, removeOwnItem } from "../../redux/slices/cartSlice";
+import {
+  addOwnItem,
+  clearAllItems,
+  removeOwnItem,
+  removeOwnType,
+} from "../../redux/slices/cartSlice";
 
 const Cart = () => {
-  const { items, totalPrice } = useSelector((state) => state.cart);
+  const { items, totalPrice, itemsAllTypeCart } = useSelector(
+    (state) => state.cart
+  );
   const dispatch = useDispatch();
+  const totalCount = itemsAllTypeCart.reduce(
+    (sum, item) => sum + item.count,
+    0
+  );
   const addCount = (item) => {
-    console.log(item);
     dispatch(addOwnItem(item));
-    console.log(item);
   };
   const removeCount = (item) => {
     dispatch(removeOwnItem(item));
   };
 
-  let { coun, setCoun } = useState(0);
   return (
     <div className="container container--cart">
       <div class="cart">
@@ -53,7 +61,7 @@ const Cart = () => {
             </svg>
             Корзина
           </h2>
-          <div class="cart__clear">
+          <div class="cart__clear" onClick={() => dispatch(clearAllItems())}>
             <svg
               width="20"
               height="20"
@@ -189,7 +197,7 @@ const Cart = () => {
           <div class="cart__bottom-details">
             <span>
               {" "}
-              Всего пицц: <b>3 шт.</b>{" "}
+              Всего пицц: <b>{totalCount} шт.</b>{" "}
             </span>
             <span>
               {" "}
