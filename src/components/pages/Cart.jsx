@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 import { addOwnItem, removeOwnItem } from "../../redux/slices/cartSlice";
 
 const Cart = () => {
-  const { items } = useSelector((state) => state.cart);
+  const { items, totalPrice } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const addCount = (item) => {
     console.log(item);
@@ -16,6 +16,7 @@ const Cart = () => {
     dispatch(removeOwnItem(item));
   };
 
+  let { coun, setCoun } = useState(0);
   return (
     <div className="container container--cart">
       <div class="cart">
@@ -192,7 +193,7 @@ const Cart = () => {
             </span>
             <span>
               {" "}
-              Сумма заказа: <b>900 ₽</b>{" "}
+              Сумма заказа: <b>{totalPrice} ₽</b>{" "}
             </span>
           </div>
           <div class="cart__bottom-buttons">

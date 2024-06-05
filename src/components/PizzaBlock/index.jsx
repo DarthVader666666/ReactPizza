@@ -28,8 +28,6 @@ function PizzaBlock(prop) {
     dispath(addItem(item));
   };
 
-  console.log(items);
-
   return (
     <div className="pizza-block-wrapper">
       <div className="pizza-block">

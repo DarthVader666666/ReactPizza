@@ -19,14 +19,12 @@ export const cartState = createSlice({
       if (existingItemType) {
         existingItemType.count += 1;
         existingItemType.price += action.payload.price;
+        state.totalPrice += action.payload.price;
       } else {
         action.payload.count = 1;
         state.items.push(action.payload);
+        state.totalPrice += action.payload.price;
       }
-
-      state.totalPrice = state.items.reduce((sum, obj) => {
-        return (obj.price += sum);
-      }, 0);
     },
     removeItem(state, action) {
       state.items = state.items.filter((obj) => obj.id === action.payload);
@@ -46,6 +44,7 @@ export const cartState = createSlice({
         existingItemType.price =
           action.payload.price + action.payload.price / action.payload.count;
         existingItemType.count += 1;
+        state.totalPrice += action.payload.price / action.payload.count;
       }
     },
 
@@ -62,6 +61,7 @@ export const cartState = createSlice({
           existingItemType.price =
             action.payload.price - action.payload.price / action.payload.count;
           existingItemType.count -= 1;
+          state.totalPrice -= action.payload.price / action.payload.count;
         } else {
         }
       }
