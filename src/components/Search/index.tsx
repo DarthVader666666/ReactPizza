@@ -7,7 +7,7 @@ import debounce from "lodash.debounce";
 const Search = () => {
   const [value, setValue] = React.useState("");
 
-  const inputRef = React.useRef();
+  const inputRef = React.useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
 
   const updateSearchValue = React.useCallback(
@@ -17,14 +17,14 @@ const Search = () => {
     []
   );
 
-  const onChangeInput = (event) => {
+  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
     updateSearchValue(event.target.value);
   };
 
   const onClickClear = () => {
     dispatch(setInput(""));
-    inputRef.current.focus();
+    inputRef.current?.focus();
   };
 
   return (
