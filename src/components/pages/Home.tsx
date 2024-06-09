@@ -106,12 +106,7 @@ const Home: React.FC = () => {
                 .filter((item: any) =>
                   item.title.toUpperCase().includes(searchValue.toUpperCase())
                 )
-                .map((obj: any) => (
-                  // <Link key={obj.id} to={`/pizza/${obj.id}`}>
-                  //   <PizzaBlock {...obj} />
-                  // </Link>
-                  <PizzaBlock {...obj} />
-                ))}
+                .map((obj: any) => <PizzaBlock {...obj} />)}
         </div>
       )}
 

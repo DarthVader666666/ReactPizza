@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../../redux/cart/slice";
 import { RootState } from "../../redux/store";
+import { Link } from "react-router-dom";
 
 type PizzaBlockPropsType = {
   id: string;
@@ -44,11 +45,13 @@ const PizzaBlock: React.FC<PizzaBlockPropsType> = (prop) => {
   return (
     <div className="pizza-block-wrapper">
       <div className="pizza-block">
-        <img
-          className="pizza-block__image"
-          src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
-          alt="Pizza"
-        />
+        <Link key={prop.id} to={`/pizza/${prop.id}`}>
+          <img
+            className="pizza-block__image"
+            src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
+            alt="Pizza"
+          />
+        </Link>
         <h4 className="pizza-block__title">{prop.title}</h4>
         <div className="pizza-block__selector">
           <ul>
