@@ -5,40 +5,27 @@ import Skeleton from "../PizzaBlock/Skeleton";
 import Pagination from "../Pagination";
 import qs from "qs";
 import { useSelector } from "react-redux";
-import { setCategoryId, setPageCount } from "../../redux/slices/filterSlice";
-import { Link, useNavigate } from "react-router-dom";
-import { fetchPizzas } from "../../redux/slices/pizzasSlice";
+import { setCategoryId, setPageCount } from "../../redux/filter/slice";
+import { useNavigate } from "react-router-dom";
 import Sort from "../Sort";
-import { RootState, useAppDispatch } from "../../redux/store";
-
-type CartType = {
-  id: string;
-  title: string;
-  types: number[];
-  sizes: number[];
-  price: number;
-  count: number;
-  imageUrl: string;
-  rating: number;
-};
+import { useAppDispatch } from "../../redux/store";
+import { selectFilter } from "../../redux/filter/selectors";
+import { selectPizzaData } from "../../redux/pizza/selectors";
+import { fetchPizzas } from "../../redux/pizza/asyncActions";
 
 const Home: React.FC = () => {
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { categoryId, input, sort, pageCount } = useSelector(
-    (state: RootState) => state.filter
-  );
+  const { categoryId, input, sort, pageCount } = useSelector(selectFilter);
   const searchValue = input;
   const sortType = sort.sortProperty;
 
-  const { itemsPizzas, status } = useSelector(
-    (state: RootState) => state.pizzas
-  );
-  const onClickCategoty = (id: number) => {
+  const { itemsPizzas, status } = useSelector(selectPizzaData);
+  const onClickCategoty = React.useCallback((id: number) => {
     dispatch(setCategoryId(id));
-  };
+  }, []);
 
   const onChangePage = (number: number) => {
     dispatch(setPageCount(number));
@@ -105,11 +92,8 @@ const Home: React.FC = () => {
   return (
     <div className="container">
       <div className="content__top">
-        <Categories
-          value={categoryId}
-          onClickCategory={(i: number) => onClickCategoty(i)}
-        />
-        <Sort />
+        <Categories value={categoryId} onClickCategory={onClickCategoty} />
+        <Sort value={sort} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {status === "error" ? (
@@ -123,9 +107,10 @@ const Home: React.FC = () => {
                   item.title.toUpperCase().includes(searchValue.toUpperCase())
                 )
                 .map((obj: any) => (
-                  <Link key={obj.id} to={`/pizza/${obj.id}`}>
-                    <PizzaBlock {...obj} />
-                  </Link>
+                  // <Link key={obj.id} to={`/pizza/${obj.id}`}>
+                  //   <PizzaBlock {...obj} />
+                  // </Link>
+                  <PizzaBlock {...obj} />
                 ))}
         </div>
       )}

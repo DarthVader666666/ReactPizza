@@ -2,13 +2,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
+
+import CartEmpty from "../CartEmpty";
+import { selectCart } from "../../redux/cart/selectors";
 import {
   addOwnItem,
   clearAllItems,
   removeOwnItem,
-  selectCart,
-} from "../../redux/slices/cartSlice";
-import CartEmpty from "../CartEmpty";
+} from "../../redux/cart/slice";
 
 type CartType = {
   id: string;
@@ -138,7 +139,8 @@ const Cart: React.FC = () => {
                   </p>
                 </div>
                 <div className="cart__item-count">
-                  <div
+                  <button
+                    disabled={item.count === 1}
                     onClick={() => removeCount(item)}
                     className="button button--outline button--circle cart__item-count-minus"
                   >
@@ -158,7 +160,7 @@ const Cart: React.FC = () => {
                         fill="#EB5A1E"
                       />
                     </svg>
-                  </div>
+                  </button>
                   <b>{item.count}</b>
                   <div
                     onClick={() => addCount(item)}

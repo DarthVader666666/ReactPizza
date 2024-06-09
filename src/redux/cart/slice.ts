@@ -1,28 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../store";
+import { CartSliceStateType } from "./types";
 
-interface CartSliceStateType {
-  totalPrice: number;
-  items: CatdType[];
-  itemsAllTypeCart: CatdType[];
-}
-type CatdType = {
-  id: string;
-  title: string;
-  type: number[];
-  size: number[];
-  price: number;
-  count: number;
-  imageUrl: string;
-  rating: number;
-};
 const initialState: CartSliceStateType = {
   totalPrice: 0,
   items: [],
   itemsAllTypeCart: [],
 };
-
-const minusData = () => {};
 
 export const cartState = createSlice({
   name: "cart",
@@ -118,8 +101,6 @@ export const cartState = createSlice({
     },
   },
 });
-
-export const selectCart = (state: RootState) => state.cart;
 
 export const {
   addItem,

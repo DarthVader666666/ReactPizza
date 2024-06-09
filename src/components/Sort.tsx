@@ -1,11 +1,15 @@
-import React, { LegacyRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { SortPropertyEnum, setSort } from "../redux/slices/filterSlice";
-import { RootState } from "../redux/store";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { SortPropertyEnum, SortType } from "../redux/filter/types";
+import { setSort } from "../redux/filter/slice";
 
 type ListType = {
   name: string;
   sortProperty: SortPropertyEnum;
+};
+
+type SortPopupPropsType = {
+  value: SortType;
 };
 
 // type PopupClickType = React.MouseEvent<HTMLBodyElement> & {
@@ -21,7 +25,7 @@ export const list: ListType[] = [
   { name: "алфавиту (ASC)", sortProperty: SortPropertyEnum.TITLE_ASC },
 ];
 
-function Sort() {
+const Sort: React.FC<SortPopupPropsType> = React.memo(({ value }) => {
   const list: ListType[] = [
     { name: "популярности (DESC)", sortProperty: SortPropertyEnum.RATING_DESC },
     { name: "популярности (ASC)", sortProperty: SortPropertyEnum.RATING_ASC },
@@ -35,12 +39,9 @@ function Sort() {
 
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
-  const sort = useSelector((state: RootState) => state.filter.sort);
-
   const onClickListItem = (obj: any) => {
     dispatch(setSort(obj));
     setOpen(false);
-    // onClickSort(i);
   };
 
   React.useEffect(() => {
@@ -74,7 +75,7 @@ function Sort() {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setOpen(!open)}>{sort.name}</span>
+        <span onClick={() => setOpen(!open)}>{value.name}</span>
       </div>
       {open && (
         <div className="sort__popup">
@@ -94,6 +95,6 @@ function Sort() {
       )}
     </div>
   );
-}
+});
 
 export default Sort;

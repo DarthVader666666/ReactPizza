@@ -1,6 +1,6 @@
 import React from "react";
 import style from "./Search.module.scss";
-import { setInput } from "../../redux/slices/filterSlice";
+import { setInput } from "../../redux/filter/slice";
 import { useDispatch } from "react-redux";
 import debounce from "lodash.debounce";
 
