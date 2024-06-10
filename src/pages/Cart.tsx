@@ -3,13 +3,9 @@ import { Link } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import CartEmpty from "../CartEmpty";
-import { selectCart } from "../../redux/cart/selectors";
-import {
-  addOwnItem,
-  clearAllItems,
-  removeOwnItem,
-} from "../../redux/cart/slice";
+import { CartEmpty } from "../components/CartEmpty";
+import { selectCart } from "../redux/cart/selectors";
+import { addOwnItem, clearAllItems, removeOwnItem } from "../redux/cart/slice";
 
 type CartType = {
   id: string;
@@ -38,6 +34,10 @@ const Cart: React.FC = () => {
   if (!totalPrice) {
     return <CartEmpty />;
   }
+  const clickOrder = () => {
+    dispatch(clearAllItems());
+    alert("Спасибо за заказ");
+  };
 
   return (
     <div className="container container--cart">
@@ -244,7 +244,7 @@ const Cart: React.FC = () => {
               </svg>
               <span>Вернуться назад</span>
             </Link>
-            <div className="button pay-btn">
+            <div className="button pay-btn" onClick={() => clickOrder()}>
               <span>Оплатить сейчас</span>
             </div>
           </div>

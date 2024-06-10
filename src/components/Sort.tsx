@@ -12,10 +12,6 @@ type SortPopupPropsType = {
   value: SortType;
 };
 
-// type PopupClickType = React.MouseEvent<HTMLBodyElement> & {
-//   path: Node[];
-// };
-
 export const list: ListType[] = [
   { name: "популярности (DESC)", sortProperty: SortPropertyEnum.RATING_DESC },
   { name: "популярности (ASC)", sortProperty: SortPropertyEnum.RATING_ASC },
@@ -25,16 +21,7 @@ export const list: ListType[] = [
   { name: "алфавиту (ASC)", sortProperty: SortPropertyEnum.TITLE_ASC },
 ];
 
-const Sort: React.FC<SortPopupPropsType> = React.memo(({ value }) => {
-  const list: ListType[] = [
-    { name: "популярности (DESC)", sortProperty: SortPropertyEnum.RATING_DESC },
-    { name: "популярности (ASC)", sortProperty: SortPropertyEnum.RATING_ASC },
-    { name: "цене (DESC)", sortProperty: SortPropertyEnum.PRICE_DESC },
-    { name: "цене (ASC)", sortProperty: SortPropertyEnum.PRICE_ASC },
-    { name: "алфавиту (DESC)", sortProperty: SortPropertyEnum.TITLE_DESC },
-    { name: "алфавиту (ASC)", sortProperty: SortPropertyEnum.TITLE_ASC },
-  ];
-
+export const Sort: React.FC<SortPopupPropsType> = React.memo(({ value }) => {
   const sortRef = React.useRef<HTMLDivElement>(null);
 
   const [open, setOpen] = useState(false);
@@ -81,14 +68,7 @@ const Sort: React.FC<SortPopupPropsType> = React.memo(({ value }) => {
         <div className="sort__popup">
           <ul>
             {list.map((obj, i) => (
-              <li
-                // className={
-                //   value.sortProperty === sort.sortProperty ? "active" : ""
-                // }
-                onClick={() => onClickListItem(obj)}
-              >
-                {obj.name}
-              </li>
+              <li onClick={() => onClickListItem(obj)}>{obj.name}</li>
             ))}
           </ul>
         </div>
@@ -96,5 +76,3 @@ const Sort: React.FC<SortPopupPropsType> = React.memo(({ value }) => {
     </div>
   );
 });
-
-export default Sort;

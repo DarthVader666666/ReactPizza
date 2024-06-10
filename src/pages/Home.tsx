@@ -1,17 +1,19 @@
 import React, { useEffect } from "react";
-import Categories from "../Categories";
-import PizzaBlock from "../PizzaBlock";
-import Skeleton from "../PizzaBlock/Skeleton";
-import Pagination from "../Pagination";
+import {
+  Skeleton,
+  PizzaBlock,
+  Categories,
+  Sort,
+  Pagination,
+} from "../components/";
 import qs from "qs";
 import { useSelector } from "react-redux";
-import { setCategoryId, setPageCount } from "../../redux/filter/slice";
+import { setCategoryId, setPageCount } from "../redux/filter/slice";
 import { useNavigate } from "react-router-dom";
-import Sort from "../Sort";
-import { useAppDispatch } from "../../redux/store";
-import { selectFilter } from "../../redux/filter/selectors";
-import { selectPizzaData } from "../../redux/pizza/selectors";
-import { fetchPizzas } from "../../redux/pizza/asyncActions";
+import { useAppDispatch } from "../redux/store";
+import { selectFilter } from "../redux/filter/selectors";
+import { selectPizzaData } from "../redux/pizza/selectors";
+import { fetchPizzas } from "../redux/pizza/asyncActions";
 
 const Home: React.FC = () => {
   const isSearch = React.useRef(false);

@@ -15,7 +15,7 @@ type PizzaBlockPropsType = {
   rating: number;
 };
 
-const PizzaBlock: React.FC<PizzaBlockPropsType> = (prop) => {
+export const PizzaBlock: React.FC<PizzaBlockPropsType> = (prop) => {
   const dispath = useDispatch();
   const [activeType, setActiveType] = useState(0);
   const [activeSize, setActiveSize] = useState(0);
@@ -103,4 +103,3 @@ const PizzaBlock: React.FC<PizzaBlockPropsType> = (prop) => {
     </div>
   );
 };
-export default PizzaBlock;

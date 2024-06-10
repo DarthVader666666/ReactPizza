@@ -1,11 +1,12 @@
 import { useWhyDidYouUpdate } from "ahooks";
 import React from "react";
+
 type CategoriesPropsType = {
   value: number;
   onClickCategory: (i: number) => void;
 };
 
-const Categories: React.FC<CategoriesPropsType> = React.memo(
+export const Categories: React.FC<CategoriesPropsType> = React.memo(
   ({ value, onClickCategory }) => {
     useWhyDidYouUpdate("Categories", {
       value,
@@ -38,5 +39,3 @@ const Categories: React.FC<CategoriesPropsType> = React.memo(
     );
   }
 );
-
-export default Categories;

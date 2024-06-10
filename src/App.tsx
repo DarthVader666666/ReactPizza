@@ -1,17 +1,16 @@
 import "./scss/app.scss";
-import Home from "./components/pages/Home";
+import Loadable from "react-loadable";
+import Home from "./pages/Home";
 import { Route, Routes } from "react-router-dom";
-// import NotFound from "./components/NotFoundBlock";
-// import Cart from "./components/pages/Cart";
-// import FullPizza from "./components/pages/FullPizza";
 import MainLauoyt from "./layouts/MainLayout";
 import React from "react";
 
-const Cart = React.lazy(
-  () => import(/* webpackChunkName:'Cart'*/ "./components/pages/Cart")
-);
+const Cart = Loadable({
+  loader: () => import(/* webpackChunkName:'Cart'*/ "./pages/Cart"),
+  loading: () => <div>Загрузка...</div>,
+});
 const FullPizza = React.lazy(
-  () => import(/* webpackChunkName:'FullPizza'*/ "./components/pages/FullPizza")
+  () => import(/* webpackChunkName:'FullPizza'*/ "./pages/FullPizza")
 );
 const NotFound = React.lazy(
   () =>
