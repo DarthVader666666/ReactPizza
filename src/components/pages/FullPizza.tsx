@@ -1,6 +1,6 @@
 import axios from "axios";
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const FullPizza: React.FC = () => {
   let { id } = useParams();
@@ -33,6 +33,11 @@ const FullPizza: React.FC = () => {
 
   return (
     <div className="container">
+      <Link to={"/"} className="pizza-block__bottom">
+        <div className="button button--outline button--add">
+          <span>Назад</span>
+        </div>
+      </Link>
       <img src={pizza.imageUrl} />
       <h2>{pizza.title}</h2>
       <h4>{pizza.price} p</h4>
